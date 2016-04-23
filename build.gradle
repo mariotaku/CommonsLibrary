@@ -2,7 +2,7 @@ allprojects {
     apply plugin: 'maven'
     apply plugin: 'java'
     group 'com.github.mariotaku.CommonsLibrary'
-    version '0.9'
+    version '0.9.1'
 
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7

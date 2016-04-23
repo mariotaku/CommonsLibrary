@@ -100,7 +100,7 @@ public class JsonStringConverter implements TypeConverter<String> {
         if (object == null) {
             jsonGenerator.writeNull();
         } else {
-            jsonGenerator.writeRaw(object);
+            jsonGenerator.writeRawValue(object);
         }
     }
 }
