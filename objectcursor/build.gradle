@@ -41,5 +41,6 @@ dependencies {
     compile 'com.github.mariotaku.ObjectCursor:core:0.9.9'
 
     provided project(':logansquare')
-    testCompile 'junit:junit:4.12'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 }
