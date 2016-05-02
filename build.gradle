@@ -13,14 +13,6 @@ buildscript {
 }
 
 subprojects {
-    apply plugin: 'maven'
     group 'com.github.mariotaku.CommonsLibrary'
     version '0.9.4'
-
-    uploadArchives {
-        repositories {
-            mavenInstaller {}
-        }
-    }
 }
-
