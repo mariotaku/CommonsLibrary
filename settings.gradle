@@ -1,3 +1,5 @@
 include ':parcel'
 include 'logansquare'
 include ':objectcursor'
+include ':math'
+include ':view'
