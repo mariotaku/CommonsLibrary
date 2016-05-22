@@ -8,7 +8,7 @@ public class StreamUtils {
 
     private static PreCopyListener EMPTY_PRE_COPY = new PreCopyListener() {
         @Override
-        public int onPreCopy(int max) {
+        public long onPreCopy(long max) {
             return max;
         }
     };
@@ -31,7 +31,7 @@ public class StreamUtils {
         if (copyListener == null) {
             copyListener = EMPTY_COPY;
         }
-        while ((len = is.read(buf, 0, preCopyListener.onPreCopy(buf.length))) != -1) {
+        while ((len = is.read(buf, 0, (int) preCopyListener.onPreCopy(buf.length))) != -1) {
             os.write(buf, 0, len);
             total += len;
             if (!copyListener.onCopied(len, total)) break;
@@ -40,7 +40,7 @@ public class StreamUtils {
     }
 
     public interface PreCopyListener {
-        int onPreCopy(int max);
+        long onPreCopy(long max);
     }
 
     public interface CopyListener {
