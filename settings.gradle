@@ -1,4 +1,4 @@
-include ':parcel'
+include ':parcel', ':text', ':text-kotlin'
 include 'logansquare'
 include ':objectcursor'
 include ':math'
