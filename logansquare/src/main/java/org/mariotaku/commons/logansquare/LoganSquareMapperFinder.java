@@ -19,7 +19,15 @@ import java.util.concurrent.TimeoutException;
  * Created by mariotaku on 16/2/19.
  */
 public class LoganSquareMapperFinder {
-    private static final ExecutorService pool = Executors.newSingleThreadExecutor();
+    private static FutureExecutor defaultExecutor = new FutureExecutor() {
+
+        private final ExecutorService pool = Executors.newSingleThreadExecutor();
+
+        @Override
+        public <T> Future<T> submit(final Callable<T> callable) {
+            return pool.submit(callable);
+        }
+    };
 
     private LoganSquareMapperFinder() {
     }
@@ -33,7 +41,7 @@ public class LoganSquareMapperFinder {
     }
 
     public static <T> JsonMapper<T> mapperFor(final ParameterizedType<T> type) throws ClassLoaderDeadLockException {
-        final Future<JsonMapper<T>> future = pool.submit(new Callable<JsonMapper<T>>() {
+        final Future<JsonMapper<T>> future = defaultExecutor.submit(new Callable<JsonMapper<T>>() {
             @Override
             public JsonMapper<T> call() {
                 return LoganSquare.mapperFor(type);
@@ -53,6 +61,11 @@ public class LoganSquareMapperFinder {
         return mapper;
     }
 
+    public static synchronized void setDefaultExecutor(FutureExecutor executor) {
+        if (executor == null) throw new IllegalArgumentException();
+        defaultExecutor = executor;
+    }
+
     public static class ClassLoaderDeadLockException extends IOException {
         public ClassLoaderDeadLockException() {
             super();
@@ -69,5 +82,9 @@ public class LoganSquareMapperFinder {
         public ClassLoaderDeadLockException(Throwable cause) {
             super(cause);
         }
+    }
+
+    public interface FutureExecutor {
+        <T> Future<T> submit(Callable<T> callable);
     }
 }
