@@ -56,7 +56,7 @@ public class LoganSquareMapperFinder {
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (TimeoutException e) {
-            throw new ClassLoaderDeadLockException(e);
+            throw new ClassLoaderDeadLockException("ClassLoader deadlock at " + Thread.currentThread().toString(), e);
         }
         return mapper;
     }
