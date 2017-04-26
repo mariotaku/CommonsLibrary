@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -44,7 +45,7 @@ public class ShortnameToUnicodeTranslator extends CharSequenceTranslator {
         int _longest = 0;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(ShortnameToUnicodeTranslator.class
-                    .getResourceAsStream("/assets/emojione/emojione.map")));
+                    .getResourceAsStream("/assets/emojione/emojione.map"), Charset.forName("UTF-8")));
 
             int mapSize = 0;
             int currentLine = 0;
