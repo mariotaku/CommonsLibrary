@@ -9,6 +9,4 @@ include ':text-kotlin'
 include ':emojione-base'
 include ':emojione-jvm'
 include ':emojione-android'
-include 'emojione-jvm'
-include 'emojione-android'
 
