@@ -32,8 +32,8 @@ public abstract class Emojione {
     static {
         String[][] arrays = null;
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(ShortnameToUnicodeTranslator.class
-                    .getResourceAsStream("/assets/emojione/emojione.map")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(AbsShortnameToUnicodeTranslator.class
+                    .getResourceAsStream("/emojione/emojione.map")));
 
             int mapSize = 0;
             int currentLine = 0;

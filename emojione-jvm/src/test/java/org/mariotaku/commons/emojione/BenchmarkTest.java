@@ -22,7 +22,7 @@ public class BenchmarkTest {
     public void setUp() throws IOException, ClassNotFoundException {
         gson = new Gson();
         translator = new ShortnameToUnicodeTranslator();
-        try (Reader reader = new InputStreamReader(ShortnameToUnicodeTranslatorTest.class.getResourceAsStream("/validate.json"))) {
+        try (Reader reader = new InputStreamReader(AbsShortnameToUnicodeTranslatorTest.class.getResourceAsStream("/validate.json"))) {
             model = gson.fromJson(reader, ValidateModel.class);
         }
         Class.forName(Emojione.class.getName());

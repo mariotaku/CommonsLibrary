@@ -13,7 +13,7 @@ import java.io.Reader;
  * Created by mariotaku on 2017/4/26.
  */
 
-public class ShortnameToUnicodeTranslatorTest {
+public class AbsShortnameToUnicodeTranslatorTest {
 
     private ShortnameToUnicodeTranslator translator;
     private Gson gson;
@@ -23,7 +23,7 @@ public class ShortnameToUnicodeTranslatorTest {
     public void setUp() throws IOException {
         gson = new Gson();
         translator = new ShortnameToUnicodeTranslator();
-        try (Reader reader = new InputStreamReader(ShortnameToUnicodeTranslatorTest.class.getResourceAsStream("/validate.json"))) {
+        try (Reader reader = new InputStreamReader(AbsShortnameToUnicodeTranslatorTest.class.getResourceAsStream("/validate.json"))) {
             model = gson.fromJson(reader, ValidateModel.class);
         }
     }

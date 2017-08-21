@@ -16,13 +16,11 @@
  */
 package org.mariotaku.commons.emojione;
 
-import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.CharSequenceTranslator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -31,22 +29,22 @@ import java.util.HashSet;
  *
  * @since 3.0
  */
-public class ShortnameToUnicodeTranslator extends CharSequenceTranslator {
+class AbsShortnameToUnicodeTranslator extends CharSequenceTranslator {
 
     private final HashMap<String, String> lookupMap;
     private final HashSet<Character> prefixSet;
     private final int shortest;
     private final int longest;
 
-    public ShortnameToUnicodeTranslator() {
+    /**
+     * @param reader Mapper data reader, this reader will be closed
+     */
+    AbsShortnameToUnicodeTranslator(BufferedReader reader) {
         HashMap<String, String> _lookupMap = null;
         HashSet<Character> _prefixSet = new HashSet<>();
         int _shortest = Integer.MAX_VALUE;
         int _longest = 0;
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(ShortnameToUnicodeTranslator.class
-                    .getResourceAsStream("/assets/emojione/emojione.map"), Charset.forName("UTF-8")));
-
             int mapSize = 0;
             int currentLine = 0;
             String lineContent;
@@ -74,6 +72,14 @@ public class ShortnameToUnicodeTranslator extends CharSequenceTranslator {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
         }
         lookupMap = _lookupMap;
         prefixSet = _prefixSet;
