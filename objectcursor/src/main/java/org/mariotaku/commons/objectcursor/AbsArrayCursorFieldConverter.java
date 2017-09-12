@@ -35,13 +35,13 @@ public abstract class AbsArrayCursorFieldConverter<T> implements CursorFieldConv
     public final T[] parseField(Cursor cursor, int columnIndex, ParameterizedType fieldType) {
         final String string = cursor.getString(columnIndex);
         if (TextUtils.isEmpty(string)) return null;
-
+        final char c = separatorChar();
         T[] temp = newArray(0);
         int len = 0;
         int offset = 0;
         try {
             while (true) {
-                int index = string.indexOf(',', offset);
+                int index = string.indexOf(c, offset);
                 if (index == -1) {
                     temp = putElement(temp, parseItem(string.substring(offset)), len++);
                     T[] out = newArray(len);
@@ -61,9 +61,10 @@ public abstract class AbsArrayCursorFieldConverter<T> implements CursorFieldConv
     public final void writeField(ContentValues values, T[] object, String columnName, ParameterizedType fieldType) {
         if (object == null) return;
         final StringBuilder sb = new StringBuilder();
+        final char c = separatorChar();
         for (int i = 0, j = object.length; i < j; i++) {
             if (i > 0) {
-                sb.append(',');
+                sb.append(c);
             }
             sb.append(object[i]);
         }
@@ -73,6 +74,10 @@ public abstract class AbsArrayCursorFieldConverter<T> implements CursorFieldConv
     protected abstract T[] newArray(int size);
 
     protected abstract T parseItem(String s);
+
+    protected char separatorChar() {
+        return ',';
+    }
 
     private T[] putElement(T[] array, T element, int index) {
         T[] out;
