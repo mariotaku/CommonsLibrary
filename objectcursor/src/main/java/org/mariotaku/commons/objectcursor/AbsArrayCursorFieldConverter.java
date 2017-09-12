@@ -66,7 +66,7 @@ public abstract class AbsArrayCursorFieldConverter<T> implements CursorFieldConv
             if (i > 0) {
                 sb.append(c);
             }
-            sb.append(object[i]);
+            sb.append(convertToString(object[i]));
         }
         values.put(columnName, sb.toString());
     }
@@ -74,6 +74,8 @@ public abstract class AbsArrayCursorFieldConverter<T> implements CursorFieldConv
     protected abstract T[] newArray(int size);
 
     protected abstract T parseItem(String s);
+
+    protected abstract String convertToString(T item);
 
     protected char separatorChar() {
         return ',';
