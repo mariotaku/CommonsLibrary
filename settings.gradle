@@ -1,4 +1,4 @@
-include ':parcel'
+include ':parcel', ':collection'
 include ':logansquare'
 include ':objectcursor'
 include ':math'

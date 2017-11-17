@@ -24,14 +24,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Translates a value using a lookup table.
- *
- * @since 3.0
- */
 class AbsShortnameToUnicodeTranslator extends CharSequenceTranslator {
 
-    private final HashMap<String, String> lookupMap;
+    private final HashMap<CharSequence, String> lookupMap;
     private final HashSet<Character> prefixSet;
     private final int shortest;
     private final int longest;
@@ -40,7 +35,7 @@ class AbsShortnameToUnicodeTranslator extends CharSequenceTranslator {
      * @param reader Mapper data reader, this reader will be closed
      */
     AbsShortnameToUnicodeTranslator(BufferedReader reader) {
-        HashMap<String, String> _lookupMap = null;
+        HashMap<CharSequence, String> _lookupMap = null;
         HashSet<Character> _prefixSet = new HashSet<>();
         int _shortest = Integer.MAX_VALUE;
         int _longest = 0;
@@ -59,7 +54,7 @@ class AbsShortnameToUnicodeTranslator extends CharSequenceTranslator {
                     final String key = lineContent.substring(0, equalIndex);
                     final String value = lineContent.substring(equalIndex + 1, lineContent.length());
                     _lookupMap.put(key, value);
-                    _prefixSet.add(key.charAt(0));
+                    _prefixSet.add(key.charAt(1));
                     final int sz = key.length();
                     if (sz < _shortest) {
                         _shortest = sz;
@@ -92,16 +87,18 @@ class AbsShortnameToUnicodeTranslator extends CharSequenceTranslator {
      */
     @Override
     public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+        final int inputLength = input.length();
+        if (index + 1 >= inputLength) return 0;
         // check if translation exists for the input at position index
-        if (prefixSet.contains(input.charAt(index))) {
+        if (':' == input.charAt(index) && prefixSet.contains(input.charAt(index + 1))) {
             int max = longest;
-            if (index + longest > input.length()) {
-                max = input.length() - index;
+            if (index + longest > inputLength) {
+                max = inputLength - index;
             }
             // implement greedy algorithm by trying maximum match first
             for (int i = max; i >= shortest; i--) {
                 final CharSequence subSeq = input.subSequence(index, index + i);
-                final String result = lookupMap.get(subSeq.toString());
+                final String result = lookupMap.get(subSeq);
 
                 if (result != null) {
                     out.write(result);
