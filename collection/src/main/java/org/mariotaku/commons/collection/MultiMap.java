@@ -30,12 +30,14 @@ public class MultiMap<K, V> {
         this.equatable = equatable;
     }
 
+    @Nullable
     public V getFirst(@NotNull K key) {
         final List<V> values = get(key);
         if (values == null || values.isEmpty()) return null;
         return values.get(0);
     }
 
+    @Nullable
     public List<V> get(@NotNull K key) {
         if (equatable != null) {
             for (Map.Entry<K, List<V>> entry : map.entrySet()) {
@@ -107,10 +109,12 @@ public class MultiMap<K, V> {
         return map.isEmpty();
     }
 
+    @NotNull
     public Set<K> keySet() {
         return map.keySet();
     }
 
+    @NotNull
     public List<Pair<K, V>> toList() {
         final ArrayList<Pair<K, V>> list = new ArrayList<>();
         for (Map.Entry<K, List<V>> entry : map.entrySet()) {
@@ -121,6 +125,7 @@ public class MultiMap<K, V> {
         return list;
     }
 
+    @NotNull
     public Set<Map.Entry<K, List<V>>> entrySet() {
         return map.entrySet();
     }
